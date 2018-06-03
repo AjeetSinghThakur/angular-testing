@@ -1,25 +1,33 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { UsersComponent } from "./users.component";
+import { of } from "rxjs/observable/of";
 
-// import { UsersComponent } from './users.component';
+describe('User Component',()=>{
+  let component: UsersComponent;
 
-// describe('UsersComponent', () => {
-//   let component: UsersComponent;
-//   let fixture: ComponentFixture<UsersComponent>;
+  const fakeUser = { id: 5, name:"fake"};
 
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ UsersComponent ]
-//     })
-//     .compileComponents();
-//   }));
+  //Manual way of faking a service and its methods.
+  //const fakeUserService = { getUsers:() => of([fakeUser]), httpClient: {}} as any;
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(UsersComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+  //Let jasmine to create an spy object and initialize the fake service and its methods.
+  const fakeUserService = jasmine.createSpyObj('userService',['getUsers']);
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+  beforeEach(()=>{
+     component = new UsersComponent(fakeUserService);
+  });
+
+  it('should have a component',()=>{
+    expect(component).toBeTruthy();
+  });
+
+  it('should have a list of users',()=>{
+    const spy = fakeUserService.getUsers.and.returnValue(of([fakeUser]));
+    component.ngOnInit();
+    component.users$.subscribe(users => {
+      expect(users).toEqual([fakeUser]);
+      expect(spy).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith()
+      expect(spy).toHaveBeenCalledTimes(1);
+    })
+  })
+});
