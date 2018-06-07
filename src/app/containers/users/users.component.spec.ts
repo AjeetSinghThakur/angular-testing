@@ -25,15 +25,18 @@ describe('UsersComponent', () => {
     })
     .compileComponents();
   }));
+
   beforeEach(() => {
     fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;
     userService = TestBed.get(UserService);
     //fixture.detectChanges();
   });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
   it('should have a list of users',(done) => {
     const spy = spyOn(userService,'getUsers').and.returnValue(timer(1000).pipe(mapTo([fakeUser])));
     component.ngOnInit();
