@@ -20,7 +20,7 @@ export class UserService {
       .pipe(catchError(this.handleError('getUsers', [])));
   }
 
-  updatetUser(user: User): Observable<User> {
+  updateUser(user: User): Observable<User> {
     return this.httpClient.put<User>(`http://localhost:3000/users/${user.id}`, user)
       .pipe(catchError(this.handleError<User>('update User')));
   }
