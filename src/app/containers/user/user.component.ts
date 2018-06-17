@@ -27,7 +27,7 @@ export class UserComponent implements OnInit {
 
   save(user: User) {
     user.id >= 1
-      ? this.usersService.updatetUser(user).subscribe(() => this.router.navigate(['/users']))
+      ? this.usersService.updateUser(user).subscribe(() => this.router.navigate(['/users']))
       : this.usersService.addUser(user).subscribe(() => this.router.navigate(['/users']));
   }
 }
